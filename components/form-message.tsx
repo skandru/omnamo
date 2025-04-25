@@ -1,24 +1,28 @@
-export type Message =
-  | { success: string }
-  | { error: string }
-  | { message: string };
+import React from 'react';
 
-export function FormMessage({ message }: { message: Message }) {
+export type Message = {
+  type: 'error' | 'success';
+  text: string;
+};
+
+type FormMessageProps = {
+  message?: Message;
+};
+
+export function FormMessage({ message }: FormMessageProps) {
+  if (!message || !message.text) return null;
+
+  const colors = {
+    error: 'bg-red-50 text-red-700 border-red-200',
+    success: 'bg-green-50 text-green-700 border-green-200',
+  };
+
   return (
-    <div className="flex flex-col gap-2 w-full max-w-md text-sm">
-      {"success" in message && (
-        <div className="text-foreground border-l-2 border-foreground px-4">
-          {message.success}
-        </div>
-      )}
-      {"error" in message && (
-        <div className="text-destructive-foreground border-l-2 border-destructive-foreground px-4">
-          {message.error}
-        </div>
-      )}
-      {"message" in message && (
-        <div className="text-foreground border-l-2 px-4">{message.message}</div>
-      )}
+    <div
+      className={`${colors[message.type]} p-3 rounded-md border my-4 text-sm`}
+      role={message.type === 'error' ? 'alert' : 'status'}
+    >
+      {message.text}
     </div>
   );
 }
