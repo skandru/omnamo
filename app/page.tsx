@@ -9,59 +9,33 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Redirect to protected page if user is already logged in
+  if (user) {
+    redirect('/protected')
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js
-          </a>{' '}
-          with{' '}
-          <a className="text-green-600" href="https://supabase.com">
-            Supabase
-          </a>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white py-2">
+      <main className="flex flex-col items-center justify-center w-full max-w-md px-4">
+        <h1 className="text-3xl font-bold text-red-500 mb-8 text-center whitespace-nowrap">
+          Welcome to Sri Venkateswara Temple
         </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by navigating to the{' '}
-          {user ? (
-            <Link href="/protected" className="text-blue-600 hover:underline">
-              protected page
+        
+        <div className="w-full bg-white rounded shadow-md p-8 flex flex-col items-center">
+          <p className="text-lg mb-6">Please sign in to access temple services</p>
+          
+          <Link href="/sign-in">
+            <button className="w-full px-4 py-2 text-white bg-amber-500 rounded-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400">
+              Sign In
+            </button>
+          </Link>
+          
+          <p className="mt-4 text-sm">
+            Don't have an account?{" "}
+            <Link className="font-medium underline text-red-500" href="/sign-up">
+              Sign up
             </Link>
-          ) : (
-            <Link href="/sign-in" className="text-blue-600 hover:underline">
-              login page
-            </Link>
-          )}
-        </p>
-
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          {user ? (
-            <div className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600">
-              <h3 className="text-2xl font-bold">You are logged in</h3>
-              <p className="mt-4 text-xl">
-                Email: {user.email}
-              </p>
-              <form action="/auth/signout" method="post">
-                <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  Sign out
-                </button>
-              </form>
-            </div>
-          ) : (
-            <div className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600">
-              <h3 className="text-2xl font-bold">Authentication</h3>
-              <p className="mt-4 text-xl">
-                Sign in to access protected content.
-              </p>
-              <Link href="/sign-in">
-                <span className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block">
-                  Sign in
-                </span>
-              </Link>
-            </div>
-          )}
+          </p>
         </div>
       </main>
     </div>
