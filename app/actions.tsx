@@ -18,8 +18,8 @@ export async function signInAction(formData: FormData) {
     return { error: error.message };
   }
 
-  revalidatePath('/', 'layout');
-  redirect('/');
+  revalidatePath('/protected', 'layout');
+  redirect('/protected');
 }
 
 export async function signUpAction(formData: FormData) {
